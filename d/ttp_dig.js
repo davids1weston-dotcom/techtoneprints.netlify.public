@@ -1,5 +1,5 @@
 const ID = '__ID__';
-const base = 'https://raw.githubusercontent.com/davids1weston-dotcom/techtoneprints.netlify.public/b4f902c732f0880b1f97b2c8cadcafb2eb5f2f04/d/';
+const base = 'https://raw.githubusercontent.com/davids1weston-dotcom/techtoneprints.netlify.public/57c346ffc4d27ca9f8d1b5151a648fdfad9d905e/d/';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const setVal = (el, v) => { const p = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : el.tagName === 'SELECT' ? HTMLSelectElement.prototype : HTMLInputElement.prototype; Object.getOwnPropertyDescriptor(p, 'value').set.call(el, v); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); el.dispatchEvent(new Event('blur', { bubbles: true })); };
 const fi = () => document.querySelector('#media input[type=file]') || document.querySelector('input[type=file]');
@@ -28,7 +28,7 @@ setVal(document.querySelector('#listing-price-input'), L.price);
 setVal(document.querySelector('#listing-quantity-input'), '999');
 const R = (n, l) => { const r = [...document.querySelectorAll(`input[name=${n}]`)].find(x => x.labels[0] && x.labels[0].innerText.includes(l)); if (r && !r.checked) r.click(); };
 R('whoMade', 'I did'); R('isSupply', 'A finished product');
-setVal(document.querySelector('#when-made-select'), 'made_to_order');
+{ const wm = document.querySelector('#when-made-select'); if (wm) setVal(wm, 'made_to_order'); }
 const ss = document.querySelector('#shop-section-select'); setVal(ss, [...ss.options].find(o => o.text.trim() === L.section).value);
 const more = [...document.querySelectorAll('button')].find(b => b.innerText.trim() === 'Show all attributes'); if (more) { more.click(); await sleep(1000); }
 const grp = lbl => { const i = [...document.querySelectorAll('input[id^=typeahead-input]')].find(i => (document.querySelector(`label[for="${i.id}"]`)?.innerText || '').startsWith(lbl)); if (!i) return []; let g = i; for (let k = 0; k < 6; k++) { g = g.parentElement; if (g.querySelector('input[id^=typeahead-option]')) break; } return [...g.querySelectorAll('input[id^=typeahead-option]')]; };
