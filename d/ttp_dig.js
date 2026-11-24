@@ -36,7 +36,7 @@ const tick = (lbl, names) => { let n = 0; for (const c of grp(lbl)) { if (names.
 log.push('subj ' + tick('Subject', ['Animal', 'Pet portrait']) + ' room ' + tick('Room', ['Living room', 'Bedroom', 'Office', 'Entryway']));
 const selBy = (lbl, val) => { const s = [...document.querySelectorAll('select')].find(s => { let g = s; for (let i = 0; i < 4; i++) g = g.parentElement; return (g.querySelector('label,legend')?.innerText || '').trim().startsWith(lbl); }); if (s) { const o = [...s.options].find(o => o.text === val); if (o) setVal(s, o.value); return s.options[s.selectedIndex].text; } return 'none'; };
 log.push('orient ' + selBy('Orientation', 'Vertical') + ' pieces ' + selBy('Number of pieces', '1'));
-const digital = /What type of item is it\? \nDigital/.test(document.body.innerText);
+const digital = /What type of item is it\? \nDigital/.test(document.body.innerText) || /Digital files/.test(document.body.innerText);
 log.push('digital ' + digital);
 await sleep(800);
 const ok = digital && document.querySelectorAll('#media img').length >= 6 && document.querySelectorAll('#media video').length >= 1 && log[1] === 'tags true' && document.querySelector('#listing-title-input').value === L.title && document.querySelector('#listing-price-input').value === L.price;
