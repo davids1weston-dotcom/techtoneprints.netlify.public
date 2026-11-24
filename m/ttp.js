@@ -43,4 +43,8 @@ const ins = [...document.querySelectorAll('input[name^="variations.tables.0.rows
 ins.forEach((i, k) => { const f = Math.floor(k / 3), s = k % 3; setVal(i, (f < 2 ? P.P : P.F)[s]); });
 log.push('prices ' + ins.map(i => i.value).join(','));
 log.push('title ' + document.querySelector('#listing-title-input').value.slice(0, 45) + ' | sec ' + ss.options[ss.selectedIndex].text + ' | desc ' + document.querySelector('#listing-description-textarea').value.length);
-log;
+const ok = document.querySelectorAll('#media img').length >= 11 && document.querySelectorAll('#media video').length >= 1 && log[1].endsWith('ok=true') && ins.length === 12 && document.querySelector('#listing-title-input').value === L.title;
+log.push('ok ' + ok);
+localStorage.setItem('ttp_last', JSON.stringify({ id: ID, log, t: Date.now() }));
+if (ok) { [...document.querySelectorAll('button')].find(b => b.innerText.trim() === 'Save as draft').click(); }
+return log;
