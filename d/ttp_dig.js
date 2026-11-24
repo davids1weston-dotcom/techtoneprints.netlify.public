@@ -18,7 +18,7 @@ log.push('media ' + document.querySelectorAll('#media img').length + '/' + docum
 setVal(document.querySelector('#listing-title-input'), L.title);
 setVal(document.querySelector('#listing-description-textarea'), L.description);
 const ti = document.querySelector('#listing-tags-input'); let tp = ti; for (let i = 0; i < 6; i++) tp = tp.parentElement;
-for (const b of [...tp.querySelectorAll('button')].filter(b => /^Delete tag/.test(b.getAttribute('aria-label') || ''))) { b.click(); await sleep(100); }
+for (let k = 0; k < 30; k++) { const b = [...tp.querySelectorAll('button')].find(b => /^Delete tag/.test(b.getAttribute('aria-label') || '')); if (!b) break; b.click(); await sleep(150); }
 await sleep(400);
 for (const t of L.tags) { setVal(ti, t); await sleep(120); ti.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true })); await sleep(220); }
 await sleep(500);
