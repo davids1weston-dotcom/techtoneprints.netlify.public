@@ -301,6 +301,19 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
 .pf-note{color:var(--muted);font-size:.9375rem}
 .pf [hidden]{display:none !important}
 @media (max-width:600px){.pf .row{grid-template-columns:1fr}}
+/* print gallery */
+.gal-group{margin-top:3rem}
+.gal-group h3{font-size:1.5rem;font-weight:400}
+.gal-group .gal-bio{color:var(--muted);margin-top:.4rem;max-width:40rem}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:1.5rem;margin-top:1.5rem}
+.gal-card{display:grid;gap:.75rem;align-content:start}
+.gal-img{position:relative;aspect-ratio:4/5;background:var(--paper-2);border:1px dashed var(--line);border-radius:var(--radius);display:grid;place-items:center;color:var(--muted);font-size:.875rem;overflow:hidden}
+.gal-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gal-title{font-family:var(--serif);font-size:1.125rem}
+.gal-by{color:var(--muted);font-size:.9375rem}
+.gal-card select{width:100%;font:inherit;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);padding:.6rem .75rem}
+.gal-price{font-size:.9375rem}
+.gal-badge{position:absolute;top:.5rem;left:.5rem;background:var(--ink);color:var(--paper);font-size:.75rem;padding:.15rem .5rem;border-radius:var(--radius)}
 
 </style>
 </head>
@@ -746,6 +759,19 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
   </section>
   </div>
 
+  <div id="screen-gallery" class="screen" hidden>
+    <section class="section" id="gallery">
+      <div class="wrap">
+        <div class="head">
+          <button type="button" class="back-link" data-goto="printing">&larr; Back to printing services</button>
+          <h2>Print gallery</h2>
+          <p class="lede">Prints by photographers we work with, and prints made by TechTonePrints. Each print is a one time purchase, made to order.</p>
+        </div>
+        <div id="gal-root"></div>
+      </div>
+    </section>
+  </div>
+
   <div id="screen-printing" class="screen" hidden>
     <section class="section" id="printing">
       <div class="wrap">
@@ -753,6 +779,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
           <button type="button" class="back-link" data-goto="landing">&larr; Back</button>
           <h2>Printing services</h2>
           <p class="lede">Professional prints for photographers and for anyone who has seen a photograph they would like on their wall. Tell us what you need and we will reply with options and a quote.</p>
+          <p style="margin-top:1.25rem"><a class="btn ghost" href="#/gallery" data-goto="gallery">Browse the print gallery</a></p>
         </div>
         <form class="pf" id="pf" name="printing" method="POST" action="/" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" novalidate>
           <input type="hidden" name="form-name" value="printing">
@@ -763,11 +790,12 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
               <label><input type="radio" name="who" value="photog"> A photographer, printing my own work</label>
               <label><input type="radio" name="who" value="fav"> Someone with a favourite print I would like printed</label>
               <label><input type="radio" name="who" value="seen"> Someone who has seen a photographer's work I would like printed</label>
+              <label><input type="radio" name="who" value="gallery"> Someone buying a print from the gallery</label>
             </div>
           </fieldset>
 
           <div id="pf-body" hidden style="display:grid;gap:1.75rem">
-            <fieldset>
+            <fieldset id="pf-svc">
               <legend>What would you like</legend>
               <div class="checks">
                 <label><input type="checkbox" name="svc" value="Fine art prints"> Fine art prints</label>
@@ -1063,7 +1091,7 @@ $$('.fgroup').forEach(g=>{
   });
 });
 /* screen router: landing / shop / trade feel like separate pages, not a scroll */
-const screens={landing:$('#screen-landing'), shop:$('#screen-shop'), trade:$('#screen-trade'), licensing:$('#screen-licensing'), printing:$('#screen-printing')};
+const screens={landing:$('#screen-landing'), shop:$('#screen-shop'), trade:$('#screen-trade'), licensing:$('#screen-licensing'), printing:$('#screen-printing'), gallery:$('#screen-gallery')};
 const sharedContent=$('#shared-content');
 const mainEl=$('#top');
 function screenFromHash(){
@@ -1072,11 +1100,12 @@ function screenFromHash(){
   if(h==='#/trade') return 'trade';
   if(h==='#/licensing') return 'licensing';
   if(h==='#/printing') return 'printing';
+  if(h==='#/gallery') return 'gallery';
   return 'landing';
 }
 function updateNavForScreen(name){
   const subnav=$('#subnav');
-  if(name==='landing' || name==='licensing' || name==='printing'){ subnav.hidden=true; return; }
+  if(name==='landing' || name==='licensing' || name==='printing' || name==='gallery'){ subnav.hidden=true; return; }
   subnav.hidden=false;
   $('.link[data-key="about"]').setAttribute('href', name==='trade' ? '#about-trade' : '#about');
   $('.link[data-key="services"]').setAttribute('href', name==='trade' ? '#services-trade' : '#services-home');
@@ -1210,7 +1239,7 @@ try{(function(){
   function build(){
     const w=who(); const svc=$$('input[name=svc]:checked',f).map(x=>x.value);
     const L=[];
-    L.push('Enquiry type: '+(w==='seen'?'Has seen a photographer\'s work and would like it printed':w==='fav'?'Favourite print to be printed':'Photographer, printing my own work'));
+    L.push('Enquiry type: '+(w==='seen'?'Has seen a photographer\'s work and would like it printed':w==='gallery'?'Buying a print from the gallery':w==='fav'?'Favourite print to be printed':'Photographer, printing my own work'));
     if(svc.length) L.push('Services: '+svc.join(', '));
     if(w==='seen'){ if(v('seenlink')) L.push('Link to the work: '+v('seenlink')); if(v('seenname')) L.push('Photographer: '+v('seenname')); if(v('seennote')) L.push('Which photo: '+v('seennote')); }
     if(w==='fav'){ const fl=f.elements['photofile'].files[0]; if(fl) L.push('Photo (I will attach it): '+fl.name); else L.push('Photo: I will attach it'); if(v('whose')) L.push('Whose photo: '+v('whose')); if(v('credit')) L.push('Artist or photographer: '+v('credit')); }
@@ -1219,18 +1248,18 @@ try{(function(){
     if(v('qty')) L.push('Quantity: '+v('qty'));
     if(v('del')) L.push('Delivery: '+v('del'));
     if(v('msg')) L.push('','Message:',v('msg'));
-    if(w!=='seen') L.push('','Permission: I confirm I own this photo or have the owner\'s permission to have it printed.');
+    if(w!=='seen' && w!=='gallery') L.push('','Permission: I confirm I own this photo or have the owner\'s permission to have it printed.');
     L.push('','From: '+v('name')+(v('email')?' ('+v('email')+')':''));
     return L.join('\n');
   }
   function refresh(){
-    const w=who(); body.hidden=!w; buyer.hidden=w!=='fav'; $('#pf-seen').hidden=w!=='seen'; $('#pf-rights').hidden=w==='seen'; photog.hidden=w!=='photog'; $('#pf-custom').hidden=v('size')!=='Custom size';
+    const w=who(); body.hidden=!w; buyer.hidden=w!=='fav'; $('#pf-seen').hidden=w!=='seen'; $('#pf-rights').hidden=(w==='seen'||w==='gallery'); $('#pf-svc').hidden=w==='gallery'; photog.hidden=w!=='photog'; $('#pf-custom').hidden=v('size')!=='Custom size';
     const subject='Printing enquiry'+(v('name')?' from '+v('name'):'');
     mail.href='mailto:'+EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(build());
   }
   f.addEventListener('input',refresh); f.addEventListener('change',refresh);
   f.addEventListener('submit',e=>e.preventDefault());
-  function ready(){ if(!who()||!v('name')||!/.+@.+\..+/.test(v('email'))){ status.textContent='Please choose who you are and add your name and a valid email first, so we know where to reply.'; return false; } if(who()!=='seen' && !f.elements['rights'].checked){ status.textContent='Please tick the box confirming you own the photo or have permission to print it.'; return false; } return true; }
+  function ready(){ if(!who()||!v('name')||!/.+@.+\..+/.test(v('email'))){ status.textContent='Please choose who you are and add your name and a valid email first, so we know where to reply.'; return false; } if(who()!=='seen' && who()!=='gallery' && !f.elements['rights'].checked){ status.textContent='Please tick the box confirming you own the photo or have permission to print it.'; return false; } return true; }
   const sendBtn=$('#pf-send');
   sendBtn.addEventListener('click',async()=>{
     if(!ready()) return;
@@ -1249,7 +1278,61 @@ try{(function(){
   });
   mail.addEventListener('click',e=>{ if(!ready()){ e.preventDefault(); return; } status.textContent='Your email app should now open with the enquiry filled in. Nothing has been sent until you press send there. If nothing opened, use Copy enquiry instead.'; });
   $('#pf-copy').addEventListener('click',async()=>{ if(!ready()) return; const ok=await copyText('To: '+EMAIL+'\nSubject: Printing enquiry from '+v('name')+'\n\n'+build()); status.textContent=ok?'Enquiry copied. Paste it into an email to '+EMAIL+' and send it from there.':'Copying was not possible here. Please select the details and email them to '+EMAIL+'.'; toast(ok?'Enquiry copied':'Copy not available'); });
+  window.pfPrefill=function(note,size){
+    const r=f.querySelector('input[name=who][value=gallery]'); if(r) r.checked=true;
+    if(size && f.elements['size']) f.elements['size'].value=size;
+    if(f.elements['msg']) f.elements['msg'].value=note;
+    refresh();
+  };
   refresh();
+})();}catch(e){}
+
+/* print gallery. Replace the sample items below with real ones. An item with no price shows "Price on request". */
+try{(function(){
+  const CHECKOUT_ENABLED=false; /* switch to true only once card checkout is set up on this site */
+  const GROUPS=[
+    {name:'Prints by TechTonePrints', bio:'Prints made and finished by TechTonePrints. Sample items, replace with real prints.', items:[
+      {title:'Sample print one', by:'TechTonePrints', img:'', sample:true, sizes:[{l:'A4',p:null},{l:'A3',p:null}]},
+      {title:'Sample print two', by:'TechTonePrints', img:'', sample:true, sizes:[{l:'A4',p:null},{l:'A3',p:null}]}
+    ]},
+    {name:'Photographer name', bio:'A short note about the photographer goes here. Sample section, replace with a real photographer.', items:[
+      {title:'Sample photograph', by:'Photographer name', img:'', sample:true, sizes:[{l:'A5',p:null},{l:'A4',p:null},{l:'A3',p:null}]}
+    ]}
+  ];
+  const root=$('#gal-root'); if(!root) return;
+  const el=(t,c,x)=>{const e=document.createElement(t); if(c) e.className=c; if(x!==undefined) e.textContent=x; return e;};
+  const money=p=>'£'+(Math.round(p*100)/100).toFixed(p%1?2:0);
+  GROUPS.forEach(g=>{
+    const sec=el('div','gal-group'); sec.appendChild(el('h3','',g.name)); if(g.bio) sec.appendChild(el('p','gal-bio',g.bio));
+    const grid=el('div','gal-grid');
+    g.items.forEach(it=>{
+      const card=el('div','gal-card'); const box=el('div','gal-img');
+      if(it.img){ const im=document.createElement('img'); im.src=it.img; im.alt=it.title+' by '+it.by; im.loading='lazy'; box.appendChild(im); } else { box.appendChild(el('span','','Photo to be added')); }
+      if(it.sample) box.appendChild(el('span','gal-badge','Sample'));
+      card.appendChild(box); card.appendChild(el('div','gal-title',it.title)); card.appendChild(el('div','gal-by','by '+it.by));
+      const sel=document.createElement('select'); sel.setAttribute('aria-label','Size for '+it.title);
+      it.sizes.forEach((z,i)=>{const o=document.createElement('option'); o.value=i; o.textContent=z.l+(z.p!=null?', '+money(z.p):''); sel.appendChild(o);});
+      const price=el('div','gal-price'); const btn=el('button','btn','');
+      btn.type='button';
+      const upd=()=>{const z=it.sizes[+sel.value]; price.textContent=z.p!=null?money(z.p):'Price on request'; btn.textContent=(CHECKOUT_ENABLED&&z.p!=null)?'Buy this print':'Enquire to buy';};
+      sel.addEventListener('change',upd); upd();
+      btn.addEventListener('click',async()=>{
+        const z=it.sizes[+sel.value];
+        if(CHECKOUT_ENABLED && z.p!=null){
+          try{
+            const r=await fetch('/.netlify/functions/create-print-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:it.title,by:it.by,size:z.l})});
+            const d=await r.json(); if(d&&d.url){ location.href=d.url; return; }
+          }catch(e){}
+          toast('Checkout is not available right now. Please use the enquiry form.');
+        }
+        if(window.pfPrefill) window.pfPrefill('I would like to buy: '+it.title+' by '+it.by+', size '+z.l+'.',z.l);
+        navigate('printing');
+        setTimeout(()=>{const f=$('#pf'); if(f) f.scrollIntoView({behavior:'smooth'});},450);
+      });
+      card.appendChild(sel); card.appendChild(price); card.appendChild(btn); grid.appendChild(card);
+    });
+    sec.appendChild(grid); root.appendChild(sec);
+  });
 })();}catch(e){}
 
 /* init */
