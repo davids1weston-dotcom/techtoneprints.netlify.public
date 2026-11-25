@@ -1331,11 +1331,14 @@ try{(function(){
 try{(function(){
   const CHECKOUT_ENABLED=false; /* switch to true only once card checkout is set up on this site */
   const PHOTOGRAPHERS=[
-    {slug:'tyrone-campbell', name:'Tyrone Campbell', photo:'', instagram:'', tagline:'Photographer',
-     bio:'A short note about Tyrone goes here. Sample text, to be replaced with his real bio.',
+    {slug:'tyrone-campbell', name:'Tyrone Campbell', photo:'images/tyrone/tyrone-campbell.jpg', instagram:'t.campbell35mm', tagline:'Film photographer',
+     bio:'Tyrone has shot film since 2019, working in black and white and colour on 35mm. His cameras have taken him from an Olympus OM-10 through a Pentax K1000 and a Canon AE-1 Program to a Leica R4 and, in 2026, a Leicaflex SL. Street scenes, travel and everyday details, all on film.',
      works:[
-       {title:'Sample photograph one', img:'', sample:true, sizes:[{l:'A5',p:null},{l:'A4',p:null},{l:'A3',p:null}]},
-       {title:'Sample photograph two', img:'', sample:true, sizes:[{l:'A5',p:null},{l:'A4',p:null},{l:'A3',p:null}]}
+       {title:'Triumph Bonneville', note:'Black and white', img:'images/tyrone/triumph-bonneville.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]},
+       {title:'Leaning Tower, Pisa', note:'Colour', img:'images/tyrone/pisa.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]},
+       {title:'Cypress Hills', note:'Black and white', img:'images/tyrone/cypress-hills.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]},
+       {title:'Dominion Theatre', note:'Black and white', img:'images/tyrone/dominion-theatre.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]},
+       {title:'The Doorway', note:'Black and white', img:'images/tyrone/the-doorway.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]}
      ]}
   ];
   const MYPRINTS=[
@@ -1354,7 +1357,7 @@ try{(function(){
     const g=el('div','gal-grid');
     items.forEach(it=>{
       const card=el('div','gal-card'); card.appendChild(imgBox(it.img,it.title+(by?' by '+by:''),'Photo to be added',it.sample));
-      card.appendChild(el('div','gal-title',it.title)); if(by) card.appendChild(el('div','gal-by','by '+by));
+      card.appendChild(el('div','gal-title',it.title)); if(it.note) card.appendChild(el('div','gal-by',it.note)); else if(by) card.appendChild(el('div','gal-by','by '+by));
       const sel=document.createElement('select'); sel.setAttribute('aria-label','Size for '+it.title);
       it.sizes.forEach((z,i)=>{const o=document.createElement('option'); o.value=i; o.textContent=z.l+(z.p!=null?', '+money(z.p):''); sel.appendChild(o);});
       const price=el('div','gal-price'); const btn=el('button','btn',''); btn.type='button';
