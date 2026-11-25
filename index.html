@@ -313,6 +313,16 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
 .gal-by{color:var(--muted);font-size:.9375rem}
 .gal-card select{width:100%;font:inherit;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);padding:.6rem .75rem}
 .gal-price{font-size:.9375rem}
+.ptabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.5rem}
+.ph-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:1.5rem;margin-top:2rem}
+.ph-card{display:grid;gap:.75rem;text-align:left;background:none;border:0;padding:0;cursor:pointer;color:var(--ink);font:inherit}
+.ph-card .gal-img{aspect-ratio:1/1}
+.ph-card:hover .gal-title{text-decoration:underline}
+.ph-head{display:grid;grid-template-columns:11rem 1fr;gap:2rem;align-items:start;margin-top:1rem}
+.ph-head .gal-img{aspect-ratio:1/1;border-radius:50%}
+.ph-head h2{margin:0}
+.ph-head p{color:var(--muted);margin-top:.75rem;max-width:40rem}
+@media (max-width:600px){.ph-head{grid-template-columns:1fr}.ph-head .gal-img{max-width:11rem}}
 .gal-badge{position:absolute;top:.5rem;left:.5rem;background:var(--ink);color:var(--paper);font-size:.75rem;padding:.15rem .5rem;border-radius:var(--radius)}
 
 </style>
@@ -759,13 +769,40 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
   </section>
   </div>
 
-  <div id="screen-gallery" class="screen" hidden>
-    <section class="section" id="gallery">
+  <div id="screen-photographers" class="screen" hidden>
+    <section class="section">
       <div class="wrap">
         <div class="head">
-          <button type="button" class="back-link" data-goto="printing">&larr; Back to printing services</button>
-          <h2>Print gallery</h2>
-          <p class="lede">Prints by photographers we work with, and prints made by TechTonePrints. Each print is a one time purchase, made to order.</p>
+          <button type="button" class="back-link" data-goto="landing">&larr; Back</button>
+          <h2>Photographers</h2>
+          <p class="lede">Prints of work by photographers we are proud to print for. Choose a photographer to see their work.</p>
+          <div class="ptabs" data-active="photographers"></div>
+        </div>
+        <div class="ph-list" id="ph-list"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="screen-photographer" class="screen" hidden>
+    <section class="section">
+      <div class="wrap">
+        <div class="head">
+          <button type="button" class="back-link" data-goto="photographers">&larr; All photographers</button>
+          <div class="ptabs" data-active="photographers"></div>
+        </div>
+        <div id="ph-root"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="screen-myprints" class="screen" hidden>
+    <section class="section">
+      <div class="wrap">
+        <div class="head">
+          <button type="button" class="back-link" data-goto="landing">&larr; Back</button>
+          <h2>My prints</h2>
+          <p class="lede">Prints made and finished by TechTonePrints. Each print is a one time purchase, made to order.</p>
+          <div class="ptabs" data-active="myprints"></div>
         </div>
         <div id="gal-root"></div>
       </div>
@@ -779,7 +816,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
           <button type="button" class="back-link" data-goto="landing">&larr; Back</button>
           <h2>Printing services</h2>
           <p class="lede">Professional prints for photographers and for anyone who has seen a photograph they would like on their wall. Tell us what you need and we will reply with options and a quote.</p>
-          <p style="margin-top:1.25rem"><a class="btn ghost" href="#/gallery" data-goto="gallery">Browse the print gallery</a></p>
+          <div class="ptabs" data-active="printing"></div>
         </div>
         <form class="pf" id="pf" name="printing" method="POST" action="/" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" novalidate>
           <input type="hidden" name="form-name" value="printing">
@@ -1091,7 +1128,7 @@ $$('.fgroup').forEach(g=>{
   });
 });
 /* screen router: landing / shop / trade feel like separate pages, not a scroll */
-const screens={landing:$('#screen-landing'), shop:$('#screen-shop'), trade:$('#screen-trade'), licensing:$('#screen-licensing'), printing:$('#screen-printing'), gallery:$('#screen-gallery')};
+const screens={landing:$('#screen-landing'), shop:$('#screen-shop'), trade:$('#screen-trade'), licensing:$('#screen-licensing'), printing:$('#screen-printing'), photographers:$('#screen-photographers'), photographer:$('#screen-photographer'), myprints:$('#screen-myprints')};
 const sharedContent=$('#shared-content');
 const mainEl=$('#top');
 function screenFromHash(){
@@ -1100,12 +1137,14 @@ function screenFromHash(){
   if(h==='#/trade') return 'trade';
   if(h==='#/licensing') return 'licensing';
   if(h==='#/printing') return 'printing';
-  if(h==='#/gallery') return 'gallery';
+  if(h==='#/photographers') return 'photographers';
+  if(h==='#/myprints') return 'myprints';
+  if(h.indexOf('#/photographer/')===0) return 'photographer';
   return 'landing';
 }
 function updateNavForScreen(name){
   const subnav=$('#subnav');
-  if(name==='landing' || name==='licensing' || name==='printing' || name==='gallery'){ subnav.hidden=true; return; }
+  if(name==='landing' || name==='licensing' || name==='printing' || name==='photographers' || name==='photographer' || name==='myprints'){ subnav.hidden=true; return; }
   subnav.hidden=false;
   $('.link[data-key="about"]').setAttribute('href', name==='trade' ? '#about-trade' : '#about');
   $('.link[data-key="services"]').setAttribute('href', name==='trade' ? '#services-trade' : '#services-home');
@@ -1287,52 +1326,83 @@ try{(function(){
   refresh();
 })();}catch(e){}
 
-/* print gallery. Replace the sample items below with real ones. An item with no price shows "Price on request". */
+/* photographers and my prints. Replace the sample content with real content.
+   A print with no price shows "Price on request". */
 try{(function(){
   const CHECKOUT_ENABLED=false; /* switch to true only once card checkout is set up on this site */
-  const GROUPS=[
-    {name:'Prints by TechTonePrints', bio:'Prints made and finished by TechTonePrints. Sample items, replace with real prints.', items:[
-      {title:'Sample print one', by:'TechTonePrints', img:'', sample:true, sizes:[{l:'A4',p:null},{l:'A3',p:null}]},
-      {title:'Sample print two', by:'TechTonePrints', img:'', sample:true, sizes:[{l:'A4',p:null},{l:'A3',p:null}]}
-    ]},
-    {name:'Photographer name', bio:'A short note about the photographer goes here. Sample section, replace with a real photographer.', items:[
-      {title:'Sample photograph', by:'Photographer name', img:'', sample:true, sizes:[{l:'A5',p:null},{l:'A4',p:null},{l:'A3',p:null}]}
-    ]}
+  const PHOTOGRAPHERS=[
+    {slug:'tyrone-campbell', name:'Tyrone Campbell', photo:'', instagram:'', tagline:'Photographer',
+     bio:'A short note about Tyrone goes here. Sample text, to be replaced with his real bio.',
+     works:[
+       {title:'Sample photograph one', img:'', sample:true, sizes:[{l:'A5',p:null},{l:'A4',p:null},{l:'A3',p:null}]},
+       {title:'Sample photograph two', img:'', sample:true, sizes:[{l:'A5',p:null},{l:'A4',p:null},{l:'A3',p:null}]}
+     ]}
   ];
-  const root=$('#gal-root'); if(!root) return;
+  const MYPRINTS=[
+    {title:'Sample print one', img:'', sample:true, sizes:[{l:'A4',p:null},{l:'A3',p:null}]},
+    {title:'Sample print two', img:'', sample:true, sizes:[{l:'A4',p:null},{l:'A3',p:null}]}
+  ];
   const el=(t,c,x)=>{const e=document.createElement(t); if(c) e.className=c; if(x!==undefined) e.textContent=x; return e;};
   const money=p=>'£'+(Math.round(p*100)/100).toFixed(p%1?2:0);
-  GROUPS.forEach(g=>{
-    const sec=el('div','gal-group'); sec.appendChild(el('h3','',g.name)); if(g.bio) sec.appendChild(el('p','gal-bio',g.bio));
-    const grid=el('div','gal-grid');
-    g.items.forEach(it=>{
-      const card=el('div','gal-card'); const box=el('div','gal-img');
-      if(it.img){ const im=document.createElement('img'); im.src=it.img; im.alt=it.title+' by '+it.by; im.loading='lazy'; box.appendChild(im); } else { box.appendChild(el('span','','Photo to be added')); }
-      if(it.sample) box.appendChild(el('span','gal-badge','Sample'));
-      card.appendChild(box); card.appendChild(el('div','gal-title',it.title)); card.appendChild(el('div','gal-by','by '+it.by));
+  const imgBox=(src,alt,label,sample)=>{const box=el('div','gal-img'); if(src){const im=document.createElement('img'); im.src=src; im.alt=alt; im.loading='lazy'; box.appendChild(im);} else box.appendChild(el('span','',label)); if(sample) box.appendChild(el('span','gal-badge','Sample')); return box;};
+
+  /* tab bars */
+  const TABS=[['printing','Printing'],['photographers','Photographers'],['myprints','My prints']];
+  $$('.ptabs').forEach(t=>{ TABS.forEach(([k,l])=>{ const b=el('button','chip-btn',l); b.type='button'; b.dataset.goto=k; b.setAttribute('aria-pressed',String(t.dataset.active===k)); t.appendChild(b); }); });
+
+  function grid(items,by){
+    const g=el('div','gal-grid');
+    items.forEach(it=>{
+      const card=el('div','gal-card'); card.appendChild(imgBox(it.img,it.title+(by?' by '+by:''),'Photo to be added',it.sample));
+      card.appendChild(el('div','gal-title',it.title)); if(by) card.appendChild(el('div','gal-by','by '+by));
       const sel=document.createElement('select'); sel.setAttribute('aria-label','Size for '+it.title);
       it.sizes.forEach((z,i)=>{const o=document.createElement('option'); o.value=i; o.textContent=z.l+(z.p!=null?', '+money(z.p):''); sel.appendChild(o);});
-      const price=el('div','gal-price'); const btn=el('button','btn','');
-      btn.type='button';
+      const price=el('div','gal-price'); const btn=el('button','btn',''); btn.type='button';
       const upd=()=>{const z=it.sizes[+sel.value]; price.textContent=z.p!=null?money(z.p):'Price on request'; btn.textContent=(CHECKOUT_ENABLED&&z.p!=null)?'Buy this print':'Enquire to buy';};
       sel.addEventListener('change',upd); upd();
       btn.addEventListener('click',async()=>{
         const z=it.sizes[+sel.value];
         if(CHECKOUT_ENABLED && z.p!=null){
-          try{
-            const r=await fetch('/.netlify/functions/create-print-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:it.title,by:it.by,size:z.l})});
-            const d=await r.json(); if(d&&d.url){ location.href=d.url; return; }
-          }catch(e){}
+          try{ const r=await fetch('/.netlify/functions/create-print-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:it.title,by:by||'TechTonePrints',size:z.l})}); const d=await r.json(); if(d&&d.url){ location.href=d.url; return; } }catch(e){}
           toast('Checkout is not available right now. Please use the enquiry form.');
         }
-        if(window.pfPrefill) window.pfPrefill('I would like to buy: '+it.title+' by '+it.by+', size '+z.l+'.',z.l);
+        if(window.pfPrefill) window.pfPrefill('I would like to buy: '+it.title+(by?' by '+by:'')+', size '+z.l+'.',z.l);
         navigate('printing');
         setTimeout(()=>{const f=$('#pf'); if(f) f.scrollIntoView({behavior:'smooth'});},450);
       });
-      card.appendChild(sel); card.appendChild(price); card.appendChild(btn); grid.appendChild(card);
+      card.appendChild(sel); card.appendChild(price); card.appendChild(btn); g.appendChild(card);
     });
-    sec.appendChild(grid); root.appendChild(sec);
+    return g;
+  }
+
+  /* my prints */
+  const gr=$('#gal-root'); if(gr) gr.appendChild(grid(MYPRINTS,''));
+
+  /* photographers list */
+  const pl=$('#ph-list');
+  if(pl) PHOTOGRAPHERS.forEach(p=>{
+    const c=el('button','ph-card'); c.type='button';
+    c.appendChild(imgBox(p.photo,p.name,'Photo to be added',!p.photo)); c.appendChild(el('div','gal-title',p.name)); if(p.tagline) c.appendChild(el('div','gal-by',p.tagline));
+    c.addEventListener('click',()=>{ location.hash='#/photographer/'+p.slug; });
+    pl.appendChild(c);
   });
+
+  /* one photographer */
+  function renderPhotographer(){
+    const root=$('#ph-root'); if(!root) return;
+    const slug=decodeURIComponent(location.hash.replace('#/photographer/',''));
+    const p=PHOTOGRAPHERS.find(x=>x.slug===slug);
+    root.innerHTML='';
+    if(!p){ root.appendChild(el('p','lede','We could not find that photographer.')); return; }
+    const head=el('div','ph-head'); head.appendChild(imgBox(p.photo,p.name,'Photo to be added',!p.photo));
+    const txt=el('div',''); txt.appendChild(el('h2','',p.name)); txt.appendChild(el('p','',p.bio));
+    if(p.instagram){ const a=el('a','textlink','@'+p.instagram.replace(/^@/,'')); a.href='https://instagram.com/'+p.instagram.replace(/^@/,''); a.target='_blank'; a.rel='noopener'; const w=el('p',''); w.appendChild(a); txt.appendChild(w); }
+    head.appendChild(txt); root.appendChild(head);
+    root.appendChild(el('h3','',"Prints by "+p.name)).style.marginTop='2.5rem';
+    root.appendChild(grid(p.works,p.name));
+  }
+  window.addEventListener('hashchange',()=>{ if(location.hash.indexOf('#/photographer/')===0) renderPhotographer(); });
+  renderPhotographer();
 })();}catch(e){}
 
 /* init */
