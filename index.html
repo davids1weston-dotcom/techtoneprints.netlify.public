@@ -283,6 +283,25 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
 
 #toast{position:fixed;left:50%;bottom:calc(1.5rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:.7rem 1.2rem;border-radius:var(--radius);font-size:.9375rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:100}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* printing enquiry */
+.pf{max-width:40rem;margin-top:2.25rem;display:grid;gap:1.75rem}
+.pf fieldset{border:0;margin:0;padding:0;display:grid;gap:.75rem;min-width:0}
+.pf legend,.pf .fl{font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:0;display:block}
+.pf input[type=text],.pf input[type=email],.pf select,.pf textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);padding:.7rem .85rem}
+.pf textarea{min-height:6rem;resize:vertical}
+.pf input:focus-visible,.pf select:focus-visible,.pf textarea:focus-visible{outline:2px solid var(--accent-l);outline-offset:1px}
+.pf .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.pf .field{display:grid;gap:.4rem}
+.pf .checks{display:flex;flex-wrap:wrap;gap:.5rem}
+.pf .checks label{display:inline-flex;gap:.5rem;align-items:center;border:1px solid var(--line);border-radius:999px;padding:.5rem .95rem;cursor:pointer;font-size:.9375rem;color:var(--ink)}
+.pf .checks label:has(input:checked){border-color:var(--ink);background:var(--paper-2)}
+.pf .checks input{accent-color:var(--accent-l)}
+.pf .actions{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center}
+.pf-note{color:var(--muted);font-size:.9375rem}
+.pf [hidden]{display:none !important}
+@media (max-width:600px){.pf .row{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -317,6 +336,11 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
           <span class="path-or">or</span>
           <a class="path-pill alt" href="#/trade" data-goto="trade">
             <span class="path-label">For Your Project</span>
+            <span class="path-go">&rarr;</span>
+          </a>
+          <span class="path-or">or</span>
+          <a class="path-pill alt" href="#/printing" data-goto="printing">
+            <span class="path-label">Printing Services</span>
             <span class="path-go">&rarr;</span>
           </a>
         </div>
@@ -722,6 +746,166 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
   </section>
   </div>
 
+  <div id="screen-printing" class="screen" hidden>
+    <section class="section" id="printing">
+      <div class="wrap">
+        <div class="head">
+          <button type="button" class="back-link" data-goto="landing">&larr; Back</button>
+          <h2>Printing services</h2>
+          <p class="lede">Professional prints for photographers and for anyone who has seen a photograph they would like on their wall. Tell us what you need and we will reply with options and a quote.</p>
+        </div>
+        <form class="pf" id="pf" novalidate>
+          <fieldset>
+            <legend>I am</legend>
+            <div class="checks" role="radiogroup" aria-label="Enquiry type">
+              <label><input type="radio" name="who" value="photog"> A photographer, printing my own work</label>
+              <label><input type="radio" name="who" value="fav"> Someone with a favourite print I would like printed</label>
+              <label><input type="radio" name="who" value="seen"> Someone who has seen a photographer's work I would like printed</label>
+            </div>
+          </fieldset>
+
+          <div id="pf-body" hidden style="display:grid;gap:1.75rem">
+            <fieldset>
+              <legend>What would you like</legend>
+              <div class="checks">
+                <label><input type="checkbox" name="svc" value="Fine art prints"> Fine art prints</label>
+                <label><input type="checkbox" name="svc" value="Framed prints"> Framed prints</label>
+                <label><input type="checkbox" name="svc" value="Flyers, cards or small items"> Flyers, cards or small items</label>
+              </div>
+            </fieldset>
+
+            <div id="pf-buyer" hidden style="display:grid;gap:1.75rem">
+              <div class="field">
+                <label class="fl" for="pf-file">The photo you would like printed</label>
+                <input type="file" id="pf-file" name="photofile" accept="image/*">
+                <span class="pf-note">Choose the photo here so we know which one. Emails cannot carry it from this page, so please attach the same photo to the email when it opens.</span>
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label class="fl" for="pf-whose">Whose photo is it</label>
+                  <select id="pf-whose" name="whose">
+                    <option value="">Please choose</option>
+                    <option>My own photo</option>
+                    <option>An artist's or photographer's photo</option>
+                    <option>A print I like</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="fl" for="pf-credit">Artist or photographer</label>
+                  <input type="text" id="pf-credit" name="credit" placeholder="Their name, if you know it">
+                </div>
+              </div>
+            </div>
+
+            <div id="pf-seen" hidden style="display:grid;gap:1.75rem">
+              <div class="field">
+                <label class="fl" for="pf-seenlink">Link to the photographer's work</label>
+                <input type="text" id="pf-seenlink" name="seenlink" placeholder="Their website, Instagram or a link to the photo">
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label class="fl" for="pf-seenname">Photographer's name</label>
+                  <input type="text" id="pf-seenname" name="seenname" placeholder="If you know it">
+                </div>
+                <div class="field">
+                  <label class="fl" for="pf-seennote">Which photo</label>
+                  <input type="text" id="pf-seennote" name="seennote" placeholder="Title or a short description">
+                </div>
+              </div>
+              <p class="pf-note">We will contact the photographer to ask whether we can print their work for you. Nothing is printed without their agreement, and we will let you know what they say.</p>
+            </div>
+
+            <div id="pf-photog" hidden style="display:grid;gap:1.75rem">
+              <div class="row">
+                <div class="field">
+                  <label class="fl" for="pf-count">Number of images</label>
+                  <input type="text" id="pf-count" name="count" placeholder="For example 5">
+                </div>
+                <div class="field">
+                  <label class="fl" for="pf-paper">Paper</label>
+                  <select id="pf-paper" name="paper">
+                    <option value="">Not sure yet, please advise</option>
+                    <option>Matte fine art</option>
+                    <option>Satin or lustre</option>
+                    <option>Gloss</option>
+                    <option>Textured or cotton rag</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label class="fl" for="pf-link">Link to your files</label>
+                <input type="text" id="pf-link" name="link" placeholder="Google Drive, Dropbox or WeTransfer link">
+                <span class="pf-note">Please share large files by link rather than attaching them to the email.</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label class="fl" for="pf-size">Size</label>
+                <select id="pf-size" name="size">
+                  <option value="">Please choose</option>
+                  <option>A6</option>
+                  <option>A5</option>
+                  <option>A4</option>
+                  <option>A3</option>
+                  <option>Custom size</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="fl" for="pf-qty">Quantity</label>
+                <input type="text" id="pf-qty" name="qty" placeholder="For example 1, or 100 flyers">
+              </div>
+            </div>
+            <div class="field" id="pf-custom" hidden>
+              <label class="fl" for="pf-csize">Custom size</label>
+              <input type="text" id="pf-csize" name="csize" placeholder="For example 200 x 300 mm">
+              <span class="pf-note">Custom sizes can be anything up to A3 (297 x 420 mm). We cannot print larger than that.</span>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label class="fl" for="pf-del">Delivery</label>
+                <select id="pf-del" name="del">
+                  <option value="">Not sure yet</option>
+                  <option>Posted to me in the UK</option>
+                  <option>Posted outside the UK</option>
+                  <option>Collection</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label class="fl" for="pf-name">Your name</label>
+                <input type="text" id="pf-name" name="name" autocomplete="name">
+              </div>
+              <div class="field">
+                <label class="fl" for="pf-email">Your email</label>
+                <input type="email" id="pf-email" name="email" autocomplete="email">
+              </div>
+            </div>
+            <div class="field">
+              <label class="fl" for="pf-msg">Anything else</label>
+              <textarea id="pf-msg" name="msg" placeholder="Tell us about the project"></textarea>
+            </div>
+
+            <fieldset id="pf-rights">
+              <legend>Permission to print</legend>
+              <div class="checks">
+                <label style="border-radius:var(--radius);align-items:flex-start"><input type="checkbox" name="rights" value="yes" style="margin-top:.25rem"> <span>I confirm that I own the photo or image I am sending, or that I have permission from the owner to have it printed. I understand that TechTonePrints may decline to print anything where permission is unclear.</span></label>
+              </div>
+            </fieldset>
+
+            <div class="actions">
+              <a class="btn" id="pf-mail" href="mailto:techtoneprints@gmail.com">Send by email</a>
+              <button type="button" class="btn ghost" id="pf-copy">Copy enquiry</button>
+            </div>
+            <p class="pf-note" id="pf-status" role="status" aria-live="polite">This page cannot send messages itself. Pressing Send by email opens your email app with the enquiry filled in, and you press send there. If nothing opens, use Copy enquiry and paste it into an email to techtoneprints@gmail.com, or message @tech_tone_prints on Instagram.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
 </main>
 
 <footer>
@@ -876,7 +1060,7 @@ $$('.fgroup').forEach(g=>{
   });
 });
 /* screen router: landing / shop / trade feel like separate pages, not a scroll */
-const screens={landing:$('#screen-landing'), shop:$('#screen-shop'), trade:$('#screen-trade'), licensing:$('#screen-licensing')};
+const screens={landing:$('#screen-landing'), shop:$('#screen-shop'), trade:$('#screen-trade'), licensing:$('#screen-licensing'), printing:$('#screen-printing')};
 const sharedContent=$('#shared-content');
 const mainEl=$('#top');
 function screenFromHash(){
@@ -884,11 +1068,12 @@ function screenFromHash(){
   if(h==='#/shop') return 'shop';
   if(h==='#/trade') return 'trade';
   if(h==='#/licensing') return 'licensing';
+  if(h==='#/printing') return 'printing';
   return 'landing';
 }
 function updateNavForScreen(name){
   const subnav=$('#subnav');
-  if(name==='landing' || name==='licensing'){ subnav.hidden=true; return; }
+  if(name==='landing' || name==='licensing' || name==='printing'){ subnav.hidden=true; return; }
   subnav.hidden=false;
   $('.link[data-key="about"]').setAttribute('href', name==='trade' ? '#about-trade' : '#about');
   $('.link[data-key="services"]').setAttribute('href', name==='trade' ? '#services-trade' : '#services-home');
@@ -1011,6 +1196,42 @@ $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b
 $('#lineup').addEventListener('click',e=>{const b=e.target.closest('.sz');if(!b)return;sizeIdx=+b.dataset.i;renderLineup();});
 let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(renderLineup,120);});
 
+
+/* printing enquiry: prepares an email, never claims anything was sent */
+try{(function(){
+  const f=$('#pf'); if(!f) return;
+  const EMAIL='techtoneprints@gmail.com';
+  const body=$('#pf-body'), buyer=$('#pf-buyer'), photog=$('#pf-photog'), mail=$('#pf-mail'), status=$('#pf-status');
+  const v=n=>(f.elements[n]&&f.elements[n].value||'').trim();
+  const who=()=>{const r=f.querySelector('input[name=who]:checked');return r?r.value:'';};
+  function build(){
+    const w=who(); const svc=$$('input[name=svc]:checked',f).map(x=>x.value);
+    const L=[];
+    L.push('Enquiry type: '+(w==='seen'?'Has seen a photographer\'s work and would like it printed':w==='fav'?'Favourite print to be printed':'Photographer, printing my own work'));
+    if(svc.length) L.push('Services: '+svc.join(', '));
+    if(w==='seen'){ if(v('seenlink')) L.push('Link to the work: '+v('seenlink')); if(v('seenname')) L.push('Photographer: '+v('seenname')); if(v('seennote')) L.push('Which photo: '+v('seennote')); }
+    if(w==='fav'){ const fl=f.elements['photofile'].files[0]; if(fl) L.push('Photo (I will attach it): '+fl.name); else L.push('Photo: I will attach it'); if(v('whose')) L.push('Whose photo: '+v('whose')); if(v('credit')) L.push('Artist or photographer: '+v('credit')); }
+    if(w==='photog'){ if(v('count')) L.push('Number of images: '+v('count')); if(v('paper')) L.push('Paper: '+v('paper')); if(v('link')) L.push('Files: '+v('link')); }
+    if(v('size')) L.push('Size: '+(v('size')==='Custom size'?'Custom, '+(v('csize')||'to be confirmed'):v('size')));
+    if(v('qty')) L.push('Quantity: '+v('qty'));
+    if(v('del')) L.push('Delivery: '+v('del'));
+    if(v('msg')) L.push('','Message:',v('msg'));
+    if(w!=='seen') L.push('','Permission: I confirm I own this photo or have the owner\'s permission to have it printed.');
+    L.push('','From: '+v('name')+(v('email')?' ('+v('email')+')':''));
+    return L.join('\n');
+  }
+  function refresh(){
+    const w=who(); body.hidden=!w; buyer.hidden=w!=='fav'; $('#pf-seen').hidden=w!=='seen'; $('#pf-rights').hidden=w==='seen'; photog.hidden=w!=='photog'; $('#pf-custom').hidden=v('size')!=='Custom size';
+    const subject='Printing enquiry'+(v('name')?' from '+v('name'):'');
+    mail.href='mailto:'+EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(build());
+  }
+  f.addEventListener('input',refresh); f.addEventListener('change',refresh);
+  f.addEventListener('submit',e=>e.preventDefault());
+  function ready(){ if(!who()||!v('name')||!/.+@.+\..+/.test(v('email'))){ status.textContent='Please choose who you are and add your name and a valid email first, so we know where to reply.'; return false; } if(who()!=='seen' && !f.elements['rights'].checked){ status.textContent='Please tick the box confirming you own the photo or have permission to print it.'; return false; } return true; }
+  mail.addEventListener('click',e=>{ if(!ready()){ e.preventDefault(); return; } status.textContent='Your email app should now open with the enquiry filled in. Nothing has been sent until you press send there. If nothing opened, use Copy enquiry instead.'; });
+  $('#pf-copy').addEventListener('click',async()=>{ if(!ready()) return; const ok=await copyText('To: '+EMAIL+'\nSubject: Printing enquiry from '+v('name')+'\n\n'+build()); status.textContent=ok?'Enquiry copied. Paste it into an email to '+EMAIL+' and send it from there.':'Copying was not possible here. Please select the details and email them to '+EMAIL+'.'; toast(ok?'Enquiry copied':'Copy not available'); });
+  refresh();
+})();}catch(e){}
 
 /* init */
 applyFilters(); renderTabs(); renderLineup();
