@@ -1392,7 +1392,27 @@ try{(function(){
   const MYPRINTS=[
     {title:'Botanical Pots Trio', note:'Set of three', ratio:'2/3', imgs:['images/inhouse/botanical-1.jpg','images/inhouse/botanical-2.jpg']},
     {title:'Warm Abstract Trio', note:'Set of three', ratio:'2/3', imgs:['images/inhouse/abstract-1.jpg','images/inhouse/abstract-2.jpg']},
-    {title:'Mountain Lake Diptych', note:'Set of two', ratio:'2/3', imgs:['images/inhouse/lake-1.jpg','images/inhouse/lake-2.jpg','images/inhouse/lake-3.jpg']}
+    {title:'Mountain Lake Diptych', note:'Set of two', ratio:'2/3', imgs:['images/inhouse/lake-1.jpg','images/inhouse/lake-2.jpg','images/inhouse/lake-3.jpg']},
+    {title:"Rose Shadow", note:"Soft monoprint forms with warm clay and muted plum.", ratio:'3/2', imgs:['images/inhouse/rose-shadow.jpg']},
+    {title:"Incised", note:"Looping ivory marks cut through ochre and olive.", ratio:'3/2', imgs:['images/inhouse/incised.jpg']},
+    {title:"Low Frequency", note:"Charcoal and bronze rhythms on a midnight ground.", ratio:'3/2', imgs:['images/inhouse/low-frequency.jpg']},
+    {title:"Ember Ledger", note:"Layered rust, umber and forest green pigment.", ratio:'3/2', imgs:['images/inhouse/ember-ledger.jpg']},
+    {title:"Linen Light", note:"Slate blue mineral bands against pale limestone.", ratio:'3/2', imgs:['images/inhouse/linen-light.jpg']},
+    {title:"Veiled Profile", note:"A near hidden face in layers of sand and limewash.", ratio:'3/2', imgs:['images/inhouse/veiled-profile.jpg']},
+    {title:"Rust Line", note:"A minimal composition of a single black bar and a rust square on cream.", ratio:'3/2', imgs:['images/inhouse/rust-line.jpg']},
+    {title:"Ink Horizon", note:"A soft, weathered horizon in ink and sand tones.", ratio:'3/2', imgs:['images/inhouse/ink-horizon.jpg']},
+    {title:"Birch Reflection", note:"A watercolour study of birch trees reflected over water.", ratio:'3/2', imgs:['images/inhouse/birch-reflection.jpg']},
+    {title:"Fractured Clay", note:"A textured abstract in cream and clay, with a single fine fracture of colour.", ratio:'3/2', imgs:['images/inhouse/fractured-clay.jpg']},
+    {title:"Reed Study", note:"An ink wash study of reeds, in a quiet, Japanese inspired style.", ratio:'3/2', imgs:['images/inhouse/reed-study.jpg']},
+    {title:"Concrete Fold", note:"A dark architectural abstract in concrete and charcoal tones.", ratio:'3/2', imgs:['images/inhouse/concrete-fold.jpg']},
+    {title:"Stone Diptych", note:"A two panel abstract in stone, cream and charcoal, flowing across both canvases.", ratio:'3/2', imgs:['images/inhouse/stone-diptych.jpg']},
+    {title:"Courtyard View", note:"A Mediterranean courtyard scene, with an olive tree, terracotta urn and a blue door.", ratio:'3/2', imgs:['images/inhouse/courtyard-view.jpg']},
+    {title:"Moka Pop", note:"A pop art style espresso moka pot, in blue, red and gold.", ratio:'3/2', imgs:['images/inhouse/moka-pop.jpg']},
+    {title:"Sandstone Arc", note:"Layered sand and stone forms with one deep charcoal curve.", ratio:'3/2', imgs:['images/inhouse/sandstone-arc.jpg']},
+    {title:"Hairline Diptych", note:"A two panel abstract in oat and charcoal, joined by fine hairline cracks.", ratio:'3/2', imgs:['images/inhouse/hairline-diptych.jpg']},
+    {title:"Half Moon Diptych", note:"A pair of arcs in cream, sand and charcoal that continue across both frames.", ratio:'3/2', imgs:['images/inhouse/half-moon-diptych.jpg']},
+    {title:"Salt Horizon", note:"A wide, weathered landscape in ivory, sand and soft graphite.", ratio:'3/2', imgs:['images/inhouse/salt-horizon.jpg']},
+    {title:"Ash Terrace", note:"Plaster like blocks of ash, bone and sand, with a dark charcoal inlay.", ratio:'3/2', imgs:['images/inhouse/ash-terrace.jpg']}
   ];
   const el=(t,c,x)=>{const e=document.createElement(t); if(c) e.className=c; if(x!==undefined) e.textContent=x; return e;};
   const money=p=>'£'+(Math.round(p*100)/100).toFixed(p%1?2:0);
@@ -1405,7 +1425,7 @@ try{(function(){
   function slider(it,by){
     const srcs=it.imgs&&it.imgs.length?it.imgs:[it.img];
     const box=el('div','gal-img gal-slider'); if(it.ratio) box.style.aspectRatio=it.ratio;
-    if(srcs.length<2||!srcs[0]) return imgBox(srcs[0],it.title+(by?' by '+by:''),'Photo to be added',it.sample);
+    if(srcs.length<2||!srcs[0]){ const ib=imgBox(srcs[0],it.title+(by?' by '+by:''),'Photo to be added',it.sample); if(it.ratio) ib.style.aspectRatio=it.ratio; return ib; }
     const track=el('div','gal-track'); track.tabIndex=0; track.setAttribute('aria-label',it.title+' pictures');
     srcs.forEach((src,i)=>{const im=document.createElement('img'); im.src=src; im.alt=it.title+(i?' in a room setting':' framed print'); im.loading='lazy'; track.appendChild(im);});
     const dots=el('div','gal-dots'); const ds=srcs.map((_,i)=>{const d=el('span',i?'':'on'); dots.appendChild(d); return d;});
