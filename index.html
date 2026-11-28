@@ -323,6 +323,16 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
 .ph-head h2{margin:0}
 .ph-head p{color:var(--muted);margin-top:.75rem;max-width:40rem}
 @media (max-width:600px){.ph-head{grid-template-columns:1fr}.ph-head .gal-img{max-width:11rem}}
+.gal-slider{border-style:solid}
+.gal-track{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.gal-track::-webkit-scrollbar{display:none}
+.gal-track img{position:static;flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:center}
+.gal-arrow{position:absolute;top:50%;transform:translateY(-50%);width:2.25rem;height:2.25rem;border-radius:50%;border:0;background:rgba(255,255,255,.88);color:var(--ink);font-size:1.5rem;line-height:1;cursor:pointer;box-shadow:0 1px 6px rgba(0,0,0,.25);display:grid;place-items:center;padding:0 0 .15rem}
+.gal-arrow[hidden]{display:none}
+.gal-prev{left:.5rem}.gal-next{right:.5rem}
+.gal-dots{position:absolute;bottom:.6rem;left:0;right:0;display:flex;justify-content:center;gap:.4rem;pointer-events:none}
+.gal-dots span{width:.5rem;height:.5rem;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 0 3px rgba(0,0,0,.4)}
+.gal-dots span.on{background:#fff;transform:scale(1.25)}
 .gal-badge{position:absolute;top:.5rem;left:.5rem;background:var(--ink);color:var(--paper);font-size:.75rem;padding:.15rem .5rem;border-radius:var(--radius)}
 
 </style>
@@ -1329,21 +1339,30 @@ try{(function(){
 /* photographers and my prints. Replace the sample content with real content.
    A print with no price shows "Price on request". */
 try{(function(){
-  const CHECKOUT_ENABLED=false; /* switch to true only once card checkout is set up on this site */
-  const PHOTOGRAPHERS=[
+    const PHOTOGRAPHERS=[
     {slug:'tyrone-campbell', name:'Tyrone Campbell', photo:'images/tyrone/tyrone-campbell.jpg', instagram:'t.campbell35mm', tagline:'Film photographer',
      bio:'Tyrone has shot film since 2019, working in black and white and colour on 35mm. His cameras have taken him from an Olympus OM-10 through a Pentax K1000 and a Canon AE-1 Program to a Leica R4 and, in 2026, a Leicaflex SL. Street scenes, travel and everyday details, all on film.',
      works:[
-       {title:'Triumph Bonneville', note:'Black and white', img:'images/tyrone/triumph-bonneville.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]},
-       {title:'Leaning Tower, Pisa', note:'Colour', img:'images/tyrone/pisa.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]},
-       {title:'Cypress Hills', note:'Black and white', img:'images/tyrone/cypress-hills.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]},
-       {title:'Dominion Theatre', note:'Black and white', img:'images/tyrone/dominion-theatre.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]},
-       {title:'The Doorway', note:'Black and white', img:'images/tyrone/the-doorway.jpg', sizes:[{l:'A5',p:12},{l:'A4',p:18},{l:'A3',p:28}]}
+       {title:'Triumph Bonneville', note:'Black and white', imgs:['images/tyrone/triumph-bonneville.jpg','images/tyrone/triumph-bonneville-room.jpg']},
+       {title:'Leaning Tower, Pisa', note:'Colour', imgs:['images/tyrone/pisa.jpg','images/tyrone/pisa-room.jpg']},
+       {title:'Cypress Hills', note:'Black and white', imgs:['images/tyrone/cypress-hills.jpg','images/tyrone/cypress-hills-room.jpg']},
+       {title:'Dominion Theatre', note:'Black and white', imgs:['images/tyrone/dominion-theatre.jpg','images/tyrone/dominion-theatre-room.jpg']},
+       {title:'The Doorway', note:'Black and white', imgs:['images/tyrone/the-doorway.jpg','images/tyrone/the-doorway-room.jpg']},
+       {title:'The Gunslinger', note:'Colour', imgs:['images/tyrone/western-portrait.jpg','images/tyrone/western-portrait-room.jpg']},
+       {title:'House Through the Pines', note:'Colour', imgs:['images/tyrone/house-through-pines.jpg','images/tyrone/house-through-pines-room.jpg']},
+       {title:'The Red Door', note:'Colour', imgs:['images/tyrone/red-door.jpg','images/tyrone/red-door-room.jpg']},
+       {title:'The Viaduct', note:'Black and white', imgs:['images/tyrone/viaduct.jpg','images/tyrone/viaduct-room.jpg']},
+       {title:'Plate Camera', note:'Colour', imgs:['images/tyrone/plate-camera.jpg','images/tyrone/plate-camera-room.jpg']},
+       {title:'Platform Tracks', note:'Black and white', imgs:['images/tyrone/platform-tracks.jpg','images/tyrone/platform-tracks-room.jpg']},
+       {title:'Mountain Lake', note:'Colour', imgs:['images/tyrone/mountain-lake.jpg','images/tyrone/mountain-lake-room.jpg']},
+       {title:'Peacock in Autumn', note:'Colour', imgs:['images/tyrone/peacock-autumn.jpg','images/tyrone/peacock-autumn-room.jpg']},
+       {title:'Peacock under Red Maple', note:'Colour', imgs:['images/tyrone/peacock-red-maple.jpg','images/tyrone/peacock-red-maple-room.jpg']},
+       {title:'Swan', note:'Colour', imgs:['images/tyrone/swan.jpg','images/tyrone/swan-room.jpg']}
      ]}
   ];
   const MYPRINTS=[
-    {title:'Sample print one', img:'', sample:true, sizes:[{l:'A4',p:null},{l:'A3',p:null}]},
-    {title:'Sample print two', img:'', sample:true, sizes:[{l:'A4',p:null},{l:'A3',p:null}]}
+    {title:'Sample print one', img:'', sample:true},
+    {title:'Sample print two', img:'', sample:true}
   ];
   const el=(t,c,x)=>{const e=document.createElement(t); if(c) e.className=c; if(x!==undefined) e.textContent=x; return e;};
   const money=p=>'£'+(Math.round(p*100)/100).toFixed(p%1?2:0);
@@ -1353,27 +1372,35 @@ try{(function(){
   const TABS=[['printing','Printing'],['photographers','Photographers'],['myprints','My prints']];
   $$('.ptabs').forEach(t=>{ TABS.forEach(([k,l])=>{ const b=el('button','chip-btn',l); b.type='button'; b.dataset.goto=k; b.setAttribute('aria-pressed',String(t.dataset.active===k)); t.appendChild(b); }); });
 
+  function slider(it,by){
+    const srcs=it.imgs&&it.imgs.length?it.imgs:[it.img];
+    const box=el('div','gal-img gal-slider');
+    if(srcs.length<2||!srcs[0]) return imgBox(srcs[0],it.title+(by?' by '+by:''),'Photo to be added',it.sample);
+    const track=el('div','gal-track'); track.tabIndex=0; track.setAttribute('aria-label',it.title+' pictures');
+    srcs.forEach((src,i)=>{const im=document.createElement('img'); im.src=src; im.alt=it.title+(i?' in a room setting':' framed print'); im.loading='lazy'; track.appendChild(im);});
+    const dots=el('div','gal-dots'); const ds=srcs.map((_,i)=>{const d=el('span',i?'':'on'); dots.appendChild(d); return d;});
+    const go=d=>{track.scrollTo({left:Math.max(0,Math.min(srcs.length-1,Math.round(track.scrollLeft/track.clientWidth)+d))*track.clientWidth,behavior:'smooth'});};
+    const prev=el('button','gal-arrow gal-prev','\u2039'); prev.type='button'; prev.setAttribute('aria-label','Previous picture');
+    const next=el('button','gal-arrow gal-next','\u203a'); next.type='button'; next.setAttribute('aria-label','Next picture');
+    prev.addEventListener('click',e=>{e.stopPropagation();go(-1);}); next.addEventListener('click',e=>{e.stopPropagation();go(1);});
+    track.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(1); if(e.key==='ArrowLeft')go(-1);});
+    const upd=()=>{const i=Math.round(track.scrollLeft/track.clientWidth); ds.forEach((d,k)=>d.className=k===i?'on':''); prev.hidden=i===0; next.hidden=i===srcs.length-1;};
+    track.addEventListener('scroll',upd,{passive:true}); prev.hidden=true;
+    box.appendChild(track); box.appendChild(prev); box.appendChild(next); box.appendChild(dots);
+    return box;
+  }
   function grid(items,by){
     const g=el('div','gal-grid');
     items.forEach(it=>{
-      const card=el('div','gal-card'); card.appendChild(imgBox(it.img,it.title+(by?' by '+by:''),'Photo to be added',it.sample));
+      const card=el('div','gal-card'); card.appendChild(slider(it,by));
       card.appendChild(el('div','gal-title',it.title)); if(it.note) card.appendChild(el('div','gal-by',it.note)); else if(by) card.appendChild(el('div','gal-by','by '+by));
-      const sel=document.createElement('select'); sel.setAttribute('aria-label','Size for '+it.title);
-      it.sizes.forEach((z,i)=>{const o=document.createElement('option'); o.value=i; o.textContent=z.l+(z.p!=null?', '+money(z.p):''); sel.appendChild(o);});
-      const price=el('div','gal-price'); const btn=el('button','btn',''); btn.type='button';
-      const upd=()=>{const z=it.sizes[+sel.value]; price.textContent=z.p!=null?money(z.p):'Price on request'; btn.textContent=(CHECKOUT_ENABLED&&z.p!=null)?'Buy this print':'Enquire to buy';};
-      sel.addEventListener('change',upd); upd();
-      btn.addEventListener('click',async()=>{
-        const z=it.sizes[+sel.value];
-        if(CHECKOUT_ENABLED && z.p!=null){
-          try{ const r=await fetch('/.netlify/functions/create-print-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:it.title,by:by||'TechTonePrints',size:z.l})}); const d=await r.json(); if(d&&d.url){ location.href=d.url; return; } }catch(e){}
-          toast('Checkout is not available right now. Please use the enquiry form.');
-        }
-        if(window.pfPrefill) window.pfPrefill('I would like to buy: '+it.title+(by?' by '+by:'')+', size '+z.l+'.',z.l);
+      const btn=el('button','btn','Enquire to buy'); btn.type='button';
+      btn.addEventListener('click',()=>{
+        if(window.pfPrefill) window.pfPrefill('I would like to buy: '+it.title+(by?' by '+by:'')+'.');
         navigate('printing');
         setTimeout(()=>{const f=$('#pf'); if(f) f.scrollIntoView({behavior:'smooth'});},450);
       });
-      card.appendChild(sel); card.appendChild(price); card.appendChild(btn); g.appendChild(card);
+      card.appendChild(btn); g.appendChild(card);
     });
     return g;
   }
