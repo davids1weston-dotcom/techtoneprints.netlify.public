@@ -1529,7 +1529,7 @@ try{(function(){
     const txt=el('div',''); txt.appendChild(el('h2','',p.name)); txt.appendChild(el('p','',p.bio));
     (p.instagrams||[]).forEach(h=>{ const a=el('a','textlink','@'+h.replace(/^@/,'')); a.href='https://www.instagram.com/'+h.replace(/^@/,''); a.target='_blank'; a.rel='noopener'; const w=el('p',''); w.style.margin='.25rem 0'; w.appendChild(a); txt.appendChild(w); });
     head.appendChild(txt); root.appendChild(head);
-    root.appendChild(el('h3','',"Prints by "+p.name)).style.marginTop='2.5rem';
+    root.appendChild(el('h3','',"Photos by "+p.name)).style.marginTop='2.5rem';
     root.appendChild(grid(p.works,p.name));
   }
   window.addEventListener('hashchange',()=>{ if(location.hash.indexOf('#/photographer/')===0) renderPhotographer(); });
