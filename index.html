@@ -856,119 +856,113 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
           <fieldset>
             <legend>I am</legend>
             <div class="checks" role="radiogroup" aria-label="Enquiry type">
-              <label><input type="radio" name="who" value="photog"> A photographer, printing my own work</label>
-              <label><input type="radio" name="who" value="fav"> Someone with a favourite print I would like printed</label>
-              <label><input type="radio" name="who" value="seen"> Someone who has seen a photographer's work I would like printed</label>
-              <label><input type="radio" name="who" value="gallery"> Someone buying a print from the gallery</label>
+              <label><input type="radio" name="who" value="photog"> A photographer</label>
+              <label><input type="radio" name="who" value="print"> Looking for a print</label>
             </div>
           </fieldset>
 
           <div id="pf-body" hidden style="display:grid;gap:1.75rem">
-            <fieldset id="pf-svc">
-              <legend>What would you like</legend>
-              <div class="checks">
-                <label><input type="checkbox" name="svc" value="Fine art prints"> Fine art prints</label>
-                <label><input type="checkbox" name="svc" value="Framed prints"> Framed prints</label>
-                <label><input type="checkbox" name="svc" value="Flyers, cards or small items"> Flyers, cards or small items</label>
-              </div>
-            </fieldset>
-
-            <div id="pf-buyer" hidden style="display:grid;gap:1.75rem">
-              <div class="field">
-                <label class="fl" for="pf-file">The photo you would like printed</label>
-                <input type="file" id="pf-file" name="photofile" accept="image/*">
-                <span class="pf-note">The photo is sent with your enquiry, up to 8 MB. For a larger file, put a download link in the message box instead.</span>
-              </div>
-              <div class="row">
-                <div class="field">
-                  <label class="fl" for="pf-whose">Whose photo is it</label>
-                  <select id="pf-whose" name="whose">
-                    <option value="">Please choose</option>
-                    <option>My own photo</option>
-                    <option>An artist's or photographer's photo</option>
-                    <option>A print I like</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label class="fl" for="pf-credit">Artist or photographer</label>
-                  <input type="text" id="pf-credit" name="credit" placeholder="Their name, if you know it">
-                </div>
-              </div>
-            </div>
-
-            <div id="pf-seen" hidden style="display:grid;gap:1.75rem">
-              <div class="field">
-                <label class="fl" for="pf-seenlink">Link to the photographer's work</label>
-                <input type="text" id="pf-seenlink" name="seenlink" placeholder="Their website, Instagram or a link to the photo">
-              </div>
-              <div class="row">
-                <div class="field">
-                  <label class="fl" for="pf-seenname">Photographer's name</label>
-                  <input type="text" id="pf-seenname" name="seenname" placeholder="If you know it">
-                </div>
-                <div class="field">
-                  <label class="fl" for="pf-seennote">Which photo</label>
-                  <input type="text" id="pf-seennote" name="seennote" placeholder="Title or a short description">
-                </div>
-              </div>
-              <p class="pf-note">We will contact the photographer to ask whether we can print their work for you. Nothing is printed without their agreement, and we will let you know what they say.</p>
-            </div>
 
             <div id="pf-photog" hidden style="display:grid;gap:1.75rem">
+              <fieldset>
+                <legend>I would like to</legend>
+                <div class="checks">
+                  <label><input type="checkbox" name="svc" value="Be featured on TechTonePrints"> Be featured on TechTonePrints</label>
+                  <label><input type="checkbox" name="svc" value="Have my work printed"> Have my work printed</label>
+                </div>
+              </fieldset>
               <div class="row">
                 <div class="field">
-                  <label class="fl" for="pf-count">Number of images</label>
-                  <input type="text" id="pf-count" name="count" placeholder="For example 5">
+                  <label class="fl" for="pf-insta">Instagram</label>
+                  <input type="text" id="pf-insta" name="instagram" placeholder="@yourname">
                 </div>
                 <div class="field">
-                  <label class="fl" for="pf-paper">Paper</label>
-                  <select id="pf-paper" name="paper">
-                    <option value="">Not sure yet, please advise</option>
-                    <option>Matte fine art</option>
-                    <option>Satin or lustre</option>
-                    <option>Gloss</option>
-                    <option>Textured or cotton rag</option>
-                  </select>
+                  <label class="fl" for="pf-portfolio">Portfolio or website</label>
+                  <input type="text" id="pf-portfolio" name="portfolio" placeholder="Link to your work">
                 </div>
               </div>
               <div class="field">
-                <label class="fl" for="pf-link">Link to your files</label>
+                <label class="fl" for="pf-link">Link to files (only if you want prints made)</label>
                 <input type="text" id="pf-link" name="link" placeholder="Google Drive, Dropbox or WeTransfer link">
-                <span class="pf-note">Please share large files by link rather than attaching them to the email.</span>
+                <span class="pf-note">Please share large files by link rather than attaching them.</span>
               </div>
             </div>
 
-            <div class="row">
+            <div id="pf-print" hidden style="display:grid;gap:1.75rem">
               <div class="field">
-                <label class="fl" for="pf-size">Size</label>
-                <select id="pf-size" name="size">
+                <label class="fl" for="pf-what">What would you like printed</label>
+                <select id="pf-what" name="what">
                   <option value="">Please choose</option>
-                  <option>A6</option>
-                  <option>A5</option>
-                  <option>A4</option>
-                  <option>A3</option>
-                  <option>Custom size</option>
+                  <option value="own">My own photo or artwork</option>
+                  <option value="else">Someone else's work that I like</option>
+                  <option value="site">A print from this site</option>
                 </select>
               </div>
-              <div class="field">
-                <label class="fl" for="pf-qty">Quantity</label>
-                <input type="text" id="pf-qty" name="qty" placeholder="For example 1, or 100 flyers">
+              <div id="pf-own" hidden class="field">
+                <label class="fl" for="pf-file">Attach your photo</label>
+                <input type="file" id="pf-file" name="photofile" accept="image/*">
+                <span class="pf-note">Up to 8 MB. For a larger file, put a download link in the message box instead.</span>
               </div>
-            </div>
-            <div class="field" id="pf-custom" hidden>
-              <label class="fl" for="pf-csize">Custom size</label>
-              <input type="text" id="pf-csize" name="csize" placeholder="For example 200 x 300 mm">
-              <span class="pf-note">Custom sizes can be anything up to A3 (297 x 420 mm). We cannot print larger than that.</span>
-            </div>
-            <div class="row">
-              <div class="field">
-                <label class="fl" for="pf-del">Delivery</label>
-                <select id="pf-del" name="del">
-                  <option value="">Not sure yet</option>
-                  <option>Posted to me in the UK</option>
-                  <option>Posted outside the UK</option>
-                  <option>Collection</option>
-                </select>
+              <div id="pf-else" hidden style="display:grid;gap:1.75rem">
+                <div class="row">
+                  <div class="field">
+                    <label class="fl" for="pf-seenname">Photographer or artist</label>
+                    <input type="text" id="pf-seenname" name="seenname" placeholder="Their name, if you know it">
+                  </div>
+                  <div class="field">
+                    <label class="fl" for="pf-seenlink">Link to their work</label>
+                    <input type="text" id="pf-seenlink" name="seenlink" placeholder="Instagram, website or the photo">
+                  </div>
+                </div>
+                <p class="pf-note">We will contact them to ask whether we can print their work for you. Nothing is printed without their agreement, and we will let you know what they say.</p>
+              </div>
+              <div id="pf-site" hidden class="field">
+                <label class="fl" for="pf-sitepick">Which print</label>
+                <input type="text" id="pf-sitepick" name="sitepick" placeholder="Title of the print">
+              </div>
+              <div id="pf-opts" hidden style="display:grid;gap:1.75rem">
+                <div class="row">
+                  <div class="field">
+                    <label class="fl" for="pf-finish">Finish</label>
+                    <select id="pf-finish" name="finish">
+                      <option value="">Not sure yet, please advise</option>
+                      <option>Fine art print</option>
+                      <option>Framed print</option>
+                      <option>Flyers, cards or small items</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label class="fl" for="pf-size">Size</label>
+                    <select id="pf-size" name="size">
+                      <option value="">Please choose</option>
+                      <option>A6</option>
+                      <option>A5</option>
+                      <option>A4</option>
+                      <option>A3</option>
+                      <option>Custom size</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field" id="pf-custom" hidden>
+                  <label class="fl" for="pf-csize">Custom size</label>
+                  <input type="text" id="pf-csize" name="csize" placeholder="For example 200 x 300 mm">
+                  <span class="pf-note">Custom sizes can be anything up to A3 (297 x 420 mm). We cannot print larger than that, but we can explore local options with you.</span>
+                </div>
+                <div class="row">
+                  <div class="field">
+                    <label class="fl" for="pf-qty">Quantity</label>
+                    <input type="text" id="pf-qty" name="qty" placeholder="For example 1, or 100 flyers">
+                  </div>
+                  <div class="field">
+                    <label class="fl" for="pf-del">Delivery</label>
+                    <select id="pf-del" name="del">
+                      <option value="">Not sure yet</option>
+                      <option>Posted to me in the UK</option>
+                      <option>Posted outside the UK</option>
+                      <option>Collection</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -984,7 +978,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
             </div>
             <div class="field">
               <label class="fl" for="pf-msg">Anything else</label>
-              <textarea id="pf-msg" name="msg" placeholder="Tell us about the project"></textarea>
+              <textarea id="pf-msg" name="msg" placeholder="Tell us a little about what you have in mind"></textarea>
             </div>
 
             <fieldset id="pf-rights">
@@ -1304,38 +1298,51 @@ let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(rend
 try{(function(){
   const f=$('#pf'); if(!f) return;
   const EMAIL='techtoneprints@gmail.com';
-  const body=$('#pf-body'), buyer=$('#pf-buyer'), photog=$('#pf-photog'), mail=$('#pf-mail'), status=$('#pf-status');
+  const body=$('#pf-body'), mail=$('#pf-mail'), status=$('#pf-status');
   const v=n=>(f.elements[n]&&f.elements[n].value||'').trim();
   const who=()=>{const r=f.querySelector('input[name=who]:checked');return r?r.value:'';};
+  const svc=()=>$$('input[name=svc]:checked',f).map(x=>x.value);
+  const needsRights=()=>(who()==='photog'&&svc().indexOf('Have my work printed')>-1)||(who()==='print'&&v('what')==='own');
   function build(){
-    const w=who(); const svc=$$('input[name=svc]:checked',f).map(x=>x.value);
-    const L=[];
-    L.push('Enquiry type: '+(w==='seen'?'Has seen a photographer\'s work and would like it printed':w==='gallery'?'Buying a print from the gallery':w==='fav'?'Favourite print to be printed':'Photographer, printing my own work'));
-    if(svc.length) L.push('Services: '+svc.join(', '));
-    if(w==='seen'){ if(v('seenlink')) L.push('Link to the work: '+v('seenlink')); if(v('seenname')) L.push('Photographer: '+v('seenname')); if(v('seennote')) L.push('Which photo: '+v('seennote')); }
-    if(w==='fav'){ const fl=f.elements['photofile'].files[0]; if(fl) L.push('Photo (I will attach it): '+fl.name); else L.push('Photo: I will attach it'); if(v('whose')) L.push('Whose photo: '+v('whose')); if(v('credit')) L.push('Artist or photographer: '+v('credit')); }
-    if(w==='photog'){ if(v('count')) L.push('Number of images: '+v('count')); if(v('paper')) L.push('Paper: '+v('paper')); if(v('link')) L.push('Files: '+v('link')); }
-    if(v('size')) L.push('Size: '+(v('size')==='Custom size'?'Custom, '+(v('csize')||'to be confirmed'):v('size')));
-    if(v('qty')) L.push('Quantity: '+v('qty'));
-    if(v('del')) L.push('Delivery: '+v('del'));
+    const w=who(); const L=[];
+    L.push('Enquiry type: '+(w==='photog'?'Photographer':'Looking for a print'));
+    if(w==='photog'){
+      if(svc().length) L.push('Would like to: '+svc().join(', '));
+      if(v('instagram')) L.push('Instagram: '+v('instagram'));
+      if(v('portfolio')) L.push('Portfolio or website: '+v('portfolio'));
+      if(v('link')) L.push('Files: '+v('link'));
+    } else {
+      const what=v('what');
+      L.push('Printing: '+(what==='own'?'My own photo or artwork':what==='else'?'Someone else\'s work':what==='site'?'A print from this site':'Not chosen yet'));
+      if(what==='own'){ const fl=f.elements['photofile'].files[0]; L.push(fl?'Photo (I will attach it): '+fl.name:'Photo: I will attach it'); }
+      if(what==='else'){ if(v('seenname')) L.push('Photographer or artist: '+v('seenname')); if(v('seenlink')) L.push('Link to the work: '+v('seenlink')); }
+      if(what==='site' && v('sitepick')) L.push('Print: '+v('sitepick'));
+      if(v('finish')) L.push('Finish: '+v('finish'));
+      if(v('size')) L.push('Size: '+(v('size')==='Custom size'?'Custom, '+(v('csize')||'to be confirmed'):v('size')));
+      if(v('qty')) L.push('Quantity: '+v('qty'));
+      if(v('del')) L.push('Delivery: '+v('del'));
+    }
     if(v('msg')) L.push('','Message:',v('msg'));
-    if(w!=='seen' && w!=='gallery') L.push('','Permission: I confirm I own this photo or have the owner\'s permission to have it printed.');
+    if(needsRights()) L.push('','Permission: I confirm I own this work or have the owner\'s permission to have it printed.');
     L.push('','From: '+v('name')+(v('email')?' ('+v('email')+')':''));
     return L.join('\n');
   }
   function refresh(){
-    const w=who(); body.hidden=!w; buyer.hidden=w!=='fav'; $('#pf-seen').hidden=w!=='seen'; $('#pf-rights').hidden=(w==='seen'||w==='gallery'); $('#pf-svc').hidden=w==='gallery'; photog.hidden=w!=='photog'; $('#pf-custom').hidden=v('size')!=='Custom size';
-    const subject='Printing enquiry'+(v('name')?' from '+v('name'):'');
+    const w=who(), what=v('what');
+    body.hidden=!w; $('#pf-photog').hidden=w!=='photog'; $('#pf-print').hidden=w!=='print';
+    $('#pf-own').hidden=what!=='own'; $('#pf-else').hidden=what!=='else'; $('#pf-site').hidden=what!=='site'; $('#pf-opts').hidden=!what;
+    $('#pf-custom').hidden=v('size')!=='Custom size'; $('#pf-rights').hidden=!needsRights();
+    const subject=(w==='photog'?'Photographer enquiry':'Printing enquiry')+(v('name')?' from '+v('name'):'');
     mail.href='mailto:'+EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(build());
   }
   f.addEventListener('input',refresh); f.addEventListener('change',refresh);
   f.addEventListener('submit',e=>e.preventDefault());
-  function ready(){ if(!who()||!v('name')||!/.+@.+\..+/.test(v('email'))){ status.textContent='Please choose who you are and add your name and a valid email first, so we know where to reply.'; return false; } if(who()!=='seen' && who()!=='gallery' && !f.elements['rights'].checked){ status.textContent='Please tick the box confirming you own the photo or have permission to print it.'; return false; } return true; }
+  function ready(){ if(!who()||!v('name')||!/.+@.+\..+/.test(v('email'))){ status.textContent='Please choose who you are and add your name and a valid email first, so we know where to reply.'; return false; } if(needsRights() && !f.elements['rights'].checked){ status.textContent='Please tick the box confirming you own the work or have permission to print it.'; return false; } return true; }
   const sendBtn=$('#pf-send');
   sendBtn.addEventListener('click',async()=>{
     if(!ready()) return;
     const fl=f.elements['photofile'].files[0];
-    if(who()==='fav' && fl && fl.size>8*1024*1024){ status.textContent='That photo is over 8 MB. Please put a download link in the message box instead and remove the file.'; return; }
+    if(who()==='print' && v('what')==='own' && fl && fl.size>8*1024*1024){ status.textContent='That photo is over 8 MB. Please put a download link in the message box instead and remove the file.'; return; }
     sendBtn.disabled=true; status.textContent='Sending...';
     try{
       const res=await fetch('/',{method:'POST',body:new FormData(f)});
@@ -1348,11 +1355,11 @@ try{(function(){
     }
   });
   mail.addEventListener('click',e=>{ if(!ready()){ e.preventDefault(); return; } status.textContent='Your email app should now open with the enquiry filled in. Nothing has been sent until you press send there. If nothing opened, use Copy enquiry instead.'; });
-  $('#pf-copy').addEventListener('click',async()=>{ if(!ready()) return; const ok=await copyText('To: '+EMAIL+'\nSubject: Printing enquiry from '+v('name')+'\n\n'+build()); status.textContent=ok?'Enquiry copied. Paste it into an email to '+EMAIL+' and send it from there.':'Copying was not possible here. Please select the details and email them to '+EMAIL+'.'; toast(ok?'Enquiry copied':'Copy not available'); });
-  window.pfPrefill=function(note,size){
-    const r=f.querySelector('input[name=who][value=gallery]'); if(r) r.checked=true;
-    if(size && f.elements['size']) f.elements['size'].value=size;
-    if(f.elements['msg']) f.elements['msg'].value=note;
+  $('#pf-copy').addEventListener('click',async()=>{ if(!ready()) return; const ok=await copyText('To: '+EMAIL+'\nSubject: Enquiry from '+v('name')+'\n\n'+build()); status.textContent=ok?'Enquiry copied. Paste it into an email to '+EMAIL+' and send it from there.':'Copying was not possible here. Please select the details and email them to '+EMAIL+'.'; toast(ok?'Enquiry copied':'Copy not available'); });
+  window.pfPrefill=function(note){
+    const r=f.querySelector('input[name=who][value=print]'); if(r) r.checked=true;
+    if(f.elements['what']) f.elements['what'].value='site';
+    if(f.elements['sitepick']) f.elements['sitepick'].value=note.replace(/^I would like to buy: /,'').replace(/\.$/,'');
     refresh();
   };
   refresh();
@@ -1383,8 +1390,9 @@ try{(function(){
      ]}
   ];
   const MYPRINTS=[
-    {title:'Sample print one', img:'', sample:true},
-    {title:'Sample print two', img:'', sample:true}
+    {title:'Botanical Pots Trio', note:'Set of three', ratio:'2/3', imgs:['images/inhouse/botanical-1.jpg','images/inhouse/botanical-2.jpg']},
+    {title:'Warm Abstract Trio', note:'Set of three', ratio:'2/3', imgs:['images/inhouse/abstract-1.jpg','images/inhouse/abstract-2.jpg']},
+    {title:'Mountain Lake Diptych', note:'Set of two', ratio:'2/3', imgs:['images/inhouse/lake-1.jpg','images/inhouse/lake-2.jpg','images/inhouse/lake-3.jpg']}
   ];
   const el=(t,c,x)=>{const e=document.createElement(t); if(c) e.className=c; if(x!==undefined) e.textContent=x; return e;};
   const money=p=>'£'+(Math.round(p*100)/100).toFixed(p%1?2:0);
@@ -1396,7 +1404,7 @@ try{(function(){
 
   function slider(it,by){
     const srcs=it.imgs&&it.imgs.length?it.imgs:[it.img];
-    const box=el('div','gal-img gal-slider');
+    const box=el('div','gal-img gal-slider'); if(it.ratio) box.style.aspectRatio=it.ratio;
     if(srcs.length<2||!srcs[0]) return imgBox(srcs[0],it.title+(by?' by '+by:''),'Photo to be added',it.sample);
     const track=el('div','gal-track'); track.tabIndex=0; track.setAttribute('aria-label',it.title+' pictures');
     srcs.forEach((src,i)=>{const im=document.createElement('img'); im.src=src; im.alt=it.title+(i?' in a room setting':' framed print'); im.loading='lazy'; track.appendChild(im);});
